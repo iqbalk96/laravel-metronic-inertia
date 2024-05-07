@@ -2,9 +2,10 @@
 import { ref, watchEffect } from 'vue';
 import Aside from '@/Layouts/Partials/Aside.vue';
 import Header from '@/Layouts/Partials/Header.vue';
-import Toolbar from '@/Layouts/Partials/Toolbar.vue';
 import Footer from '@/Layouts/Partials/Footer.vue';
 import { Link, usePage } from '@inertiajs/vue3';
+
+// import Toolbar from '@/Layouts/Partials/Toolbar.vue';
 
 const showingNavigationDropdown = ref(false);
 
@@ -55,7 +56,7 @@ watchEffect(() => {
 					<!--begin::Content-->
 					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 						<!--begin::Toolbar-->
-						<Toolbar />
+						<!-- <Toolbar /> -->
 						<!--end::Toolbar-->
 						<!--begin::Post-->
 						<div class="post d-flex flex-column-fluid" id="kt_post">

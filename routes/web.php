@@ -26,7 +26,10 @@ use Inertia\Inertia;
 // });
 
 Route::get('/', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'title' => 'Dashboard',
+        'breadcrumbs' => []
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
