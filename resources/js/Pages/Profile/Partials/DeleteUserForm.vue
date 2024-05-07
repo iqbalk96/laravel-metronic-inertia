@@ -8,7 +8,16 @@ import TextInput from '@/Components/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
 
-const confirmingUserDeletion = ref(false);
+import { useModal } from '@/Composables/useModal.js';
+import { onMounted } from 'vue';
+import { onUnmounted } from 'vue';
+
+const modal = ref(null);
+
+onMounted(() => {
+    modal.value = useModal('#userId');
+})
+
 const passwordInput = ref(null);
 
 const form = useForm({
@@ -16,7 +25,7 @@ const form = useForm({
 });
 
 const confirmUserDeletion = () => {
-    confirmingUserDeletion.value = true;
+    modal.value.show();
 
     nextTick(() => passwordInput.value.focus());
 };
@@ -31,10 +40,15 @@ const deleteUser = () => {
 };
 
 const closeModal = () => {
-    confirmingUserDeletion.value = false;
+    modal.value.hide();
 
     form.reset();
 };
+
+onUnmounted(() => {
+    closeModal()
+})
+
 </script>
 
 <template>
@@ -50,12 +64,14 @@ const closeModal = () => {
 
         <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
 
-        <Modal :show="confirmingUserDeletion" @close="closeModal">
-            <div class="p-6">
+        <Modal id="userId" @close="closeModal">
+
+            <template #title>
                 <h2 class="text-lg font-medium text-gray-900">
                     Are you sure you want to delete your account?
                 </h2>
-
+            </template>
+            <template #body>
                 <p class="mt-1 text-sm text-gray-600">
                     Once your account is deleted, all of its resources and data will be permanently deleted. Please
                     enter your password to confirm you would like to permanently delete your account.
@@ -76,9 +92,9 @@ const closeModal = () => {
 
                     <InputError :message="form.errors.password" class="mt-2" />
                 </div>
-
-                <div class="mt-6 flex justify-end">
-                    <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+            </template>
+            <template #footer>
+                <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
 
                     <DangerButton
                         class="ms-3"
@@ -88,8 +104,7 @@ const closeModal = () => {
                     >
                         Delete Account
                     </DangerButton>
-                </div>
-            </div>
+            </template>
         </Modal>
     </section>
 </template>
