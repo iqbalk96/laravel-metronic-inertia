@@ -32,9 +32,6 @@ class CustomerController extends Controller
         ]);
     }
 
-    // return [
-    //     'id' => $customer->id
-    // ]
     /**
      * Display the customer's form create.
      */
