@@ -26,7 +26,7 @@ watchEffect(() => {
 
     if (flashMessage.errors) {
         Swal.fire({
-            html: flashMessage.errors,
+            html: 'Terjadi Kesalahan',
             icon: "error",
             buttonsStyling: false,
             confirmButtonText: "Ok, got it!",

@@ -48,7 +48,7 @@
                         </div>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link active" href="../../demo1/dist/index.html">
+                        <Link class="menu-link" :href="route('dashboard')">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
                                 <span class="svg-icon svg-icon-2">
@@ -61,11 +61,11 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">Default</span>
-                        </a>
+                            <span class="menu-title">Dashboard</span>
+                        </Link>
                     </div>
                     <div class="menu-item">
-                        <a class="menu-link" href="../../demo1/dist/dashboards/no-toolbar.html">
+                        <Link class="menu-link" :href="route('customer')">
                             <span class="menu-icon">
                                 <!--begin::Svg Icon | path: icons/duotune/art/art002.svg-->
                                 <span class="svg-icon svg-icon-2">
@@ -76,8 +76,8 @@
                                 </span>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="menu-title">No Toolbar</span>
-                        </a>
+                            <span class="menu-title">Customer</span>
+                        </Link>
                     </div>
                     <div class="menu-item">
                         <a class="menu-link" href="../../demo1/dist/dashboards/light-aside.html">

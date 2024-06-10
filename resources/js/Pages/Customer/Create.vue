@@ -1,0 +1,97 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head } from '@inertiajs/vue3';
+import Toolbar from '@/Layouts/Partials/Toolbar.vue';
+import { useForm, router } from '@inertiajs/vue3';
+import { ref, reactive, computed } from 'vue'
+
+// const loading = useForm({
+//     submit: true
+// })
+
+const isLoading = ref(false);
+
+
+const form = useForm({
+    name: null,
+    email: null,
+    phone: null
+})
+
+
+function submit() {
+    isLoading.value = true
+    try {
+        router.post('/customer', form);
+        isLoading.value = false
+    } catch (error) {
+        isLoading.value = false
+    }
+}
+
+const props = defineProps({
+    title: {
+        type: String
+    },
+    breadcrumbs: {
+        type: Object
+    },
+    errors: {
+        type: Object
+    }
+})
+
+</script>
+
+<template>
+
+    <Head title="Customer" />
+
+    <AuthenticatedLayout>
+        <template #header>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Customer Create</h2>
+        </template>
+
+        <Toolbar :title="props.title" :breadcrumbs="breadcrumbs" />
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <form @submit.prevent="submit">
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <h3 class="card-title">Form create customer</h3>
+                            <div class="card-toolbar">
+                                <button type="button" class="btn btn-sm btn-light">
+                                    Action
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-10">
+                                <label for="name" class="required form-label">Name</label>
+                                <input type="text" id="name" name="name" v-model="form.name"
+                                    class="form-control form-control-solid" placeholder="eg: John Doe" />
+                                <div class="text-danger text-xs" v-if="errors.name">{{ errors.name }}</div>
+                            </div>
+                            <div class="mb-10">
+                                <label for="phone" class="required form-label">Phone</label>
+                                <input type="number" id="phone" name="phone" v-model="form.phone"
+                                    class="form-control form-control-solid" placeholder="eg: 0812121212" />
+                                <div class="text-danger text-xs" v-if="errors.phone">{{ errors.phone }}</div>
+                            </div>
+                            <div class="mb-0">
+                                <label for="email" class="required form-label">Email</label>
+                                <input type="email" id="email" name="email" v-model="form.email"
+                                    class="form-control form-control-solid" placeholder="eg: johndoe@mail.com" />
+                                <div class="text-danger text-xs" v-if="errors.email">{{ errors.email }}</div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" :disabled="isLoading">Submit</button>
+                            <button type="reset" class="btn btn-warning ms-3" :disabled="isLoading">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>
