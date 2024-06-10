@@ -15,16 +15,7 @@ class CustomerController extends Controller
      */
     public function index(Request $request): Response
     {
-        $customers = Customer::all()->map(function($customer) {
-            return [
-                'id' => $customer->id,
-                'name' => $customer->name,
-                'email' => $customer->email,
-                'phone' => $customer->phone,
-                'created_at' => $customer->created_at,
-                'updated_at' => $customer->updated_at,
-            ];
-        });
+        $customers = Customer::paginate(10);
         return Inertia::render('Customer/List', [
             'title' => 'Customer',
             'breadcrumbs' => [['label' => 'Customer List', 'link' => route('customer')]],

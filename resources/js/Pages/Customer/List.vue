@@ -2,6 +2,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Toolbar from '@/Layouts/Partials/Toolbar.vue';
+import Pagination from '@/Components/Pagination.vue';
+
 
 const props = defineProps({
     title: {
@@ -12,7 +14,7 @@ const props = defineProps({
     },
     customers: {
         type: Object
-    }
+    }, 
 })
 
 </script>
@@ -53,7 +55,7 @@ const props = defineProps({
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="customer in customers">
+                                    <tr v-for="customer in customers.data">
                                         <td>{{ customer.name }}</td>
                                         <td>{{ customer.email }}</td>
                                         <td>{{ customer.phone }}</td>
@@ -68,7 +70,7 @@ const props = defineProps({
                         </div>
                     </div>
                     <div class="card-footer">
-                        Footer
+                        <Pagination :links="customers.links" /> 
                     </div>
                 </div>
             </div>

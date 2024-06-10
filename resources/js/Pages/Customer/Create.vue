@@ -3,14 +3,10 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Toolbar from '@/Layouts/Partials/Toolbar.vue';
 import { useForm, router } from '@inertiajs/vue3';
-import { ref, reactive, computed } from 'vue'
+import { ref } from 'vue'
 
-// const loading = useForm({
-//     submit: true
-// })
 
 const isLoading = ref(false);
-
 
 const form = useForm({
     name: null,
