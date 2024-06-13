@@ -41,12 +41,17 @@ class CustomerController extends Controller
     {
         $validated = $request->validate([
         'name' => 'required|max:225',
-        'phone' => 'required|email|unique:customers',
+        'email' => 'required|email|unique:customers',
         'phone' => 'required |unique:customers|max:14|min:10'
         ]);
 
         Customer::create($validated);
 
+        return Redirect::route('customer')->with('success', "Success create customer");
+    }
+
+    public function destroy(Customer $customer) {
+        $customer->delete($customer);
         return Redirect::route('customer');
     }
 }

@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, router } from '@inertiajs/vue3';
 import Toolbar from '@/Layouts/Partials/Toolbar.vue';
 import Pagination from '@/Components/Pagination.vue';
 
@@ -14,8 +14,28 @@ const props = defineProps({
     },
     customers: {
         type: Object
-    }, 
+    },
 })
+
+function destroy(customerId) {
+    Swal.fire({
+        title: "Are you sure want to delete this customer?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "Delete",
+        customClass: {
+            confirmButton: "btn btn-danger",
+            cancelButton: "btn btn-secondary",
+        }
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            router.delete("/customer/" + customerId, {
+                onSuccess: () => Swal.fire("Deleted!", "", "success"),
+            });
+        }
+    });
+}
 
 </script>
 
@@ -34,11 +54,13 @@ const props = defineProps({
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="card shadow-sm">
                     <div class="card-header">
-                        <h3 class="card-title">List Customer</h3>
+                        <h3 class="card-title">List customer</h3>
                         <div class="card-toolbar">
+                            <Link :href="route('customer.create')">
                             <button type="button" class="btn btn-sm btn-dark">
                                 Create Customer
                             </button>
+                            </Link>
                         </div>
                     </div>
                     <div class="card-body">
@@ -56,13 +78,18 @@ const props = defineProps({
                                 </thead>
                                 <tbody>
                                     <tr v-for="customer in customers.data">
-                                        <td>{{ customer.name }}</td>
+                                        <td>
+                                            <Link :href="route('customer')">
+                                            {{ customer.name }}
+                                            </Link>
+                                        </td>
                                         <td>{{ customer.email }}</td>
                                         <td>{{ customer.phone }}</td>
                                         <td>{{ customer.created_at }}</td>
                                         <td>{{ customer.updated_at }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-sm">Delete</button>
+                                            <button @click.prevent="destroy(customer.id)"
+                                                class="btn btn-danger btn-sm">Delete</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -70,7 +97,7 @@ const props = defineProps({
                         </div>
                     </div>
                     <div class="card-footer">
-                        <Pagination :links="customers.links" /> 
+                        <Pagination :links="customers.links" />
                     </div>
                 </div>
             </div>

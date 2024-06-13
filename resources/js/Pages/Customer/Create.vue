@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Toolbar from '@/Layouts/Partials/Toolbar.vue';
-import { useForm, router } from '@inertiajs/vue3';
+import { useForm, router, Link } from '@inertiajs/vue3';
 import { ref } from 'vue'
 
 
@@ -16,13 +16,20 @@ const form = useForm({
 
 
 function submit() {
+    // router.post('/customer', form, {
+    //     onSuccess: () => Swal.fire("Success create customer!", "", "success"),
+    // });
+    // form.post(route('customer'), {
+    //     onFinish: () => Swal.fire("Success create customer!", "", "success"),
+    //     onSuccess: () => Swal.fire("Success create customer!", "", "success"),
+    // });
     isLoading.value = true
-    try {
-        router.post('/customer', form);
-        isLoading.value = false
-    } catch (error) {
-        isLoading.value = false
-    }
+    router.post('/customer', form);
+    isLoading.value = false
+    // try { 
+    //     isLoading.value = false
+    // } catch (error) {
+    // }
 }
 
 const props = defineProps({
@@ -56,9 +63,11 @@ const props = defineProps({
                         <div class="card-header">
                             <h3 class="card-title">Form create customer</h3>
                             <div class="card-toolbar">
+                                <Link :href="route('customer')">
                                 <button type="button" class="btn btn-sm btn-light">
-                                    Action
+                                    Back
                                 </button>
+                                </Link>
                             </div>
                         </div>
                         <div class="card-body">
