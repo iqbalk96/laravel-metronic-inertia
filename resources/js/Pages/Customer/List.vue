@@ -30,11 +30,13 @@ function destroy(customerId) {
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-            router.delete("/customer/" + customerId, {
-                onSuccess: () => Swal.fire("Deleted!", "", "success"),
-            });
+            router.delete("/customer/" + customerId);
         }
     });
+}
+
+function edit (id) {
+    router.get('/customer/' + id + '/edit')
 }
 
 </script>
@@ -79,9 +81,9 @@ function destroy(customerId) {
                                 <tbody>
                                     <tr v-for="customer in customers.data">
                                         <td>
-                                            <Link :href="route('customer')">
-                                            {{ customer.name }}
-                                            </Link>
+                                            <button class="btn btn-link" @click.prevent="edit(customer.id)">
+                                                {{ customer.name }}
+                                            </button>
                                         </td>
                                         <td>{{ customer.email }}</td>
                                         <td>{{ customer.phone }}</td>

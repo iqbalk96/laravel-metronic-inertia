@@ -8,16 +8,9 @@ import { ref } from 'vue'
 
 const isLoading = ref(false);
 
-const form = useForm({
-    name: null,
-    email: null,
-    phone: null
-})
-
-
-function submit() {
+function submit(id) {
     isLoading.value = true
-    router.post('/customer', form);
+    router.put('/customer/' + id, form);
     isLoading.value = false
 }
 
@@ -30,7 +23,16 @@ const props = defineProps({
     },
     errors: {
         type: Object
+    },
+    customer: {
+        type: Object
     }
+})
+
+const form = useForm({
+    name: props.customer.name,
+    email: props.customer.email,
+    phone: props.customer.phone
 })
 
 </script>
@@ -41,16 +43,16 @@ const props = defineProps({
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Customer Create</h2>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Customer Edit</h2>
         </template>
 
         <Toolbar :title="props.title" :breadcrumbs="breadcrumbs" />
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <form @submit.prevent="submit">
+                <form @submit.prevent="submit(customer.id)">
                     <div class="card shadow-sm">
                         <div class="card-header">
-                            <h3 class="card-title">Form create customer</h3>
+                            <h3 class="card-title">Form edit customer</h3>
                             <div class="card-toolbar">
                                 <Link :href="route('customer')">
                                 <button type="button" class="btn btn-sm btn-light">
